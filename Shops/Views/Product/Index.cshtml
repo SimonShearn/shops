@@ -1,0 +1,112 @@
+﻿@model Shops.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>Location</td><td>@Html.DropDownList("shopFilter", new SelectList(ViewBag.ShopList))</td>
+        </tr>
+        <tr>
+            <td>Maximum price (£)</td>
+            <td>@Html.TextBox("maxPrice", "", new { @type = "number", min = "0", max = "10000000", value = "1000000", style = "width:100px" })</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Refresh" />
+            </td>
+        </tr>
+    </table>
+}
+<table>
+    <tr>
+        <th>
+            Manufacturer
+        </th>
+        <th>
+            Model
+        </th>
+        <th>
+            Colour
+        </th>
+        <th>
+            Capacity
+        </th>
+        <th>
+            Mileage
+        </th>
+        <th>
+            Year
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Shop
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.products) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.manufacturer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.model)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.colour)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.capacity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mileage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.year)
+        </td>
+        <td>
+            £@Html.DisplayFor(modelItem => item.price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.shop.name)
+        </td>
+        <td>
+            <a class="btn btn-primary center"
+               href="mailto:equiries@invalid.invalid?Subject=Enquiry (ref @item.id)&body=@EmailBody(@item.id, @item.manufacturer, @item.model, @item.shop.name)">Enquiry</a>
+        </td>
+        <td>
+            @if (@User.Identity.Name=="administrator")
+            {
+                @Html.ActionLink("Edit", "Edit", new { id=item.id }) 
+                @Html.ActionLink("Details", "Details", new { id=item.id }) 
+                @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            }
+        </td>
+    </tr>
+}
+</table>
+<div id="broadcasts"></div>
+<p>
+    @if (@User.Identity.Name == "administrator")
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
+</p>
+
+
+@helper EmailBody(int ProductId, string Manufacturer, string Model, string Branch)
+{
+    string body = "Dear Sir, ";
+    
+    body += "I would like to enquire about the " + Manufacturer + " " + Model + " (ref " + ProductId + ") you have for sale in " + Branch; 
+    
+    @body
+}

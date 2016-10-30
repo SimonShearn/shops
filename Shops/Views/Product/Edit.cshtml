@@ -1,0 +1,94 @@
+﻿@model Shops.product
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>product</legend>
+
+        @Html.HiddenFor(model => model.id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.manufacturer)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.manufacturer)
+            @Html.ValidationMessageFor(model => model.manufacturer)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.colour)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.colour)
+            @Html.ValidationMessageFor(model => model.colour)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.model)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.model)
+            @Html.ValidationMessageFor(model => model.model)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.capacity)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.capacity)
+            @Html.ValidationMessageFor(model => model.capacity)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.mileage)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.mileage)
+            @Html.ValidationMessageFor(model => model.mileage)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.year)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.year)
+            @Html.ValidationMessageFor(model => model.year)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.price)
+        </div>
+        <div class="editor-field">
+            £@Html.EditorFor(model => model.price)
+            @Html.ValidationMessageFor(model => model.price)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.shop_id, "shop")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("shop_id", String.Empty)
+            @Html.ValidationMessageFor(model => model.shop_id)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
